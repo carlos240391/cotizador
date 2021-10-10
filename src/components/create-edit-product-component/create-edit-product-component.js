@@ -103,14 +103,13 @@ const CreateEditProductComponent = (props) => {
         }
 
         const createUrl = `${thisproduct.name.split(' ').join('-')}-${thisproduct.SKU}`;
-        console.log(createUrl);
 
         const newProduct = {
             name:thisproduct.name,
             description:thisproduct.description,
             price: thisproduct.price,
             SKU:thisproduct.SKU,
-            url:createUrl.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ''),
+            url:createUrl.replace(/[&\/\\#,+()$~%./'":*?<>{}]/g, ''),
         }
         const postProduct = async() =>{
         
