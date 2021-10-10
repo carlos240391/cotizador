@@ -109,7 +109,7 @@ const CreateEditProductComponent = (props) => {
             description:thisproduct.description,
             price: thisproduct.price,
             SKU:thisproduct.SKU,
-            url:createUrl.replace(/[&#,+()$~%./'":*?<>{}]/g, ''),
+            url:createUrl.replace(/[&#,+()$~%./'":*?<>{}]/g, '')
         }
         const postProduct = async() =>{
         
