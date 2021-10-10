@@ -17,7 +17,6 @@ const CardProduct = (props) => {
     const [puntual, setPuntual] = React.useState(0)
 
     const getPay = (e) =>{
-        console.log(e.target.value);
         if(e.target.value !== 'null'){
             const plazo = JSON.parse(e.target.value);
             const semanas = plazo.semanas;

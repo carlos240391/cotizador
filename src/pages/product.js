@@ -1,7 +1,7 @@
 import React from "react";
 import Container from "../components/containers/container";
 import ContainerWithaside from "../components/containers/container-withaside";
-import Cotizador from "../components/cotizador-component/cotizador";
+//import Cotizador from "../components/cotizador-component/cotizador";
 import { Spacing } from "../components/generals/spacing/spacing";
 import Spiner from "../components/generals/spiner/spiner";
 import ProductComponent from "../components/product-component/product-component";
@@ -38,8 +38,9 @@ const Product = (props) => {
         <Spacing/>
         <Container>
         <ContainerWithaside
+            relation={0}
             body={<ProductComponent product={product}/>}
-            aside={<Cotizador/>}
+            aside={null}
         />
         </Container>
         </>
