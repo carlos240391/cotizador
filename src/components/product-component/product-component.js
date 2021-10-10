@@ -3,7 +3,7 @@ import { ContainerProductStyles } from "./product-component-styles";
 const ProductComponent = (props) => {
 
     const {SKU,name,description,price} = props.product;
-
+   
 
     return ( 
         <>

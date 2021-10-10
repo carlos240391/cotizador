@@ -7,6 +7,7 @@ import { ButtonPrimary } from "../generals/buttons/buttons";
 import { Spacing } from "../generals/spacing/spacing";
 import SpinerWait from "../generals/spiner/spiner-wait";
 import Title from "../generals/titles/title";
+import NoProducts from "../no-products/no-products";
 import { ContainerCreateEditStyles } from "./create-edit-product-component-styles";
 
 
@@ -20,6 +21,7 @@ const CreateEditProductComponent = (props) => {
     const loginVerify = localStorage.getItem('user');
     const userToken = JSON.parse(loginVerify).jwt;
     const [load, setLoad] = React.useState(false);
+    const [error, setError] = React.useState(false);
    
 
 
@@ -33,17 +35,22 @@ const CreateEditProductComponent = (props) => {
     const getProduct = React.useCallback(()=>{
         const getThisProduct = async()=>{
             const thisproduct = await GetMethod(`products?url_contains=${param}`);
+            console.log(thisproduct);
             if(thisproduct.ok){
-                const data = thisproduct.response.data[0]
-                console.log('this',data);
-                setThisproduct({
-                    ...thisproduct,
-                    name:data.name,
-                    description:data.description,
-                    price:data.price,
-                    SKU:data.SKU,
-                    id:data.id
-                })
+                if(thisproduct.response.data.length === 0){
+                    setError(true);
+                    return;
+                }else{
+                    const data = thisproduct.response.data[0]
+                    setThisproduct({
+                        ...thisproduct,
+                        name:data.name,
+                        description:data.description,
+                        price:data.price,
+                        SKU:data.SKU,
+                        id:data.id
+                    })
+                }
             }else{
 
             }
@@ -95,12 +102,15 @@ const CreateEditProductComponent = (props) => {
             return;
         }
 
+        const createUrl = `${thisproduct.name.split(' ').join('-')}-${thisproduct.SKU}`;
+        console.log(createUrl);
+
         const newProduct = {
             name:thisproduct.name,
             description:thisproduct.description,
             price: thisproduct.price,
             SKU:thisproduct.SKU,
-            url:`${thisproduct.name.split(' ').join('-')}-${thisproduct.SKU}`,
+            url:createUrl.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ''),
         }
         const postProduct = async() =>{
         
@@ -133,6 +143,10 @@ const CreateEditProductComponent = (props) => {
   
 
     return (  
+        <>
+        {error ?
+            <NoProducts/>
+            :
         <>
         <Spacing/>
         <ContainerCreateEditStyles>
@@ -183,6 +197,8 @@ const CreateEditProductComponent = (props) => {
             
         </form>
         </ContainerCreateEditStyles>
+        </>
+        }
         </>
     );
 }

@@ -4,6 +4,7 @@ import ContainerWithaside from "../components/containers/container-withaside";
 //import Cotizador from "../components/cotizador-component/cotizador";
 import { Spacing } from "../components/generals/spacing/spacing";
 import Spiner from "../components/generals/spiner/spiner";
+import NoProducts from "../components/no-products/no-products";
 import ProductComponent from "../components/product-component/product-component";
 import { GetMethod } from "../utils/peticiones/request";
 
@@ -17,10 +18,14 @@ const Product = (props) => {
     const getProduct = React.useCallback(()=>{
         const getThisProduct = async () =>{
             const res = await GetMethod(`products?url_containss=${thisUrl}`);
-            console.log(res.ok);
             if(res.ok){
-                setProduct(res.response.data[0]);
-                setLoad(false);
+                if(res.response.data.length === 0){
+                    setProduct([]);
+                    setLoad(false);
+                }else{
+                    setProduct(res.response.data[0]);
+                    setLoad(false);
+                }
             }else{
                 setLoad(false);
             }
@@ -33,15 +38,20 @@ const Product = (props) => {
     if(load){
         return <Spiner/>
     }
+    
     return (  
         <>
         <Spacing/>
         <Container>
-        <ContainerWithaside
+        {product.length === 0 ?
+            <NoProducts/>
+            :
+            <ContainerWithaside
             relation={0}
             body={<ProductComponent product={product}/>}
             aside={null}
-        />
+            />
+        }   
         </Container>
         </>
     );
